@@ -1,0 +1,10 @@
+Actions
+------------
+Agent Login
+Agent buy / sell currency
+Agent create vault 
+Agent input tradeable currency pairs
+System records transactions
+System records balance history
+
+cmd /K "C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Auxiliary\Build\vcvarsall.bat" amd64
