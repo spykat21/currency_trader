@@ -1,25 +1,25 @@
 <mxfile host="65bd71144e">
     <diagram id="8X7keAAUkCYeNsxqTZ2R" name="Page-1">
-        <mxGraphModel dx="692" dy="159" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+        <mxGraphModel dx="753" dy="330" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
                 <mxCell id="2" value="Agent&lt;br&gt;&lt;br&gt;name&lt;br&gt;username&amp;nbsp;&lt;br&gt;hash_password&lt;br&gt;id" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
                     <mxGeometry x="80" y="90" width="120" height="100" as="geometry"/>
                 </mxCell>
-                <mxCell id="3" value="Currency pairs&lt;br&gt;&lt;br&gt;&lt;br&gt;currency&lt;br&gt;buy_rate&lt;br&gt;sell_rate&lt;br&gt;updated_by" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                <mxCell id="3" value="Currency pairs&lt;br&gt;&lt;br&gt;&lt;br&gt;currency_code&lt;br&gt;currency&lt;br&gt;buy_rate&lt;br&gt;sell_rate&lt;br&gt;updated_by" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
                     <mxGeometry x="550" y="75" width="120" height="185" as="geometry"/>
                 </mxCell>
-                <mxCell id="4" value="Transaction&lt;br&gt;&lt;br&gt;currency&lt;br&gt;action&lt;br&gt;rate&lt;br&gt;datetime&lt;br&gt;customer name&lt;br&gt;customer phone&lt;br&gt;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                <mxCell id="4" value="Transaction&lt;br&gt;&lt;br&gt;currency_code&lt;br&gt;action&lt;br&gt;rate&lt;br&gt;datetime&lt;br&gt;customer name&lt;br&gt;customer phone&lt;br&gt;amount" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
                     <mxGeometry x="80" y="260" width="120" height="140" as="geometry"/>
                 </mxCell>
                 <mxCell id="6" value="Vault&lt;br&gt;&lt;br&gt;currency_id&lt;br&gt;amount&lt;br&gt;agent_id" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
                     <mxGeometry x="300" y="90" width="150" height="70" as="geometry"/>
                 </mxCell>
-                <mxCell id="7" value="Balance History&lt;br&gt;&lt;br&gt;agent_id&lt;br&gt;currency_id&lt;br&gt;amount&lt;br&gt;date" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                <mxCell id="7" value="Balance History&lt;br&gt;&lt;br&gt;agent_id&lt;br&gt;currency_id&lt;br&gt;amount&lt;br&gt;date&lt;br&gt;created_by" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
                     <mxGeometry x="290" y="240" width="150" height="110" as="geometry"/>
                 </mxCell>
-                <mxCell id="8" value="" style="endArrow=classic;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.75;entryDx=0;entryDy=0;" parent="1" source="2" target="6" edge="1">
+                <mxCell id="8" value="" style="endArrow=classic;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.004;entryY=0.643;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="2" target="6" edge="1">
                     <mxGeometry width="50" height="50" relative="1" as="geometry">
                         <mxPoint x="360" y="240" as="sourcePoint"/>
                         <mxPoint x="410" y="190" as="targetPoint"/>
@@ -40,7 +40,7 @@
                         <mxPoint x="140" y="260" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="12" value="" style="endArrow=classic;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.75;entryDx=0;entryDy=0;" edge="1" parent="1" target="6">
+                <mxCell id="12" value="" style="endArrow=classic;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=1.031;entryY=0.671;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" target="6" edge="1">
                     <mxGeometry width="50" height="50" relative="1" as="geometry">
                         <mxPoint x="510" y="138.75" as="sourcePoint"/>
                         <mxPoint x="610" y="141.25" as="targetPoint"/>
