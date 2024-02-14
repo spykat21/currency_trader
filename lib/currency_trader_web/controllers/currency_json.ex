@@ -15,7 +15,7 @@ defmodule CurrencyTraderWeb.CurrencyJSON do
     %{data: data(currency)}
   end
 
-  defp data(%Currency{} = currency) do
+  def data(%Currency{} = currency) do
     %{
       id: currency.id,
       currency_code: currency.curr_code,

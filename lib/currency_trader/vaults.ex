@@ -56,6 +56,12 @@ defmodule CurrencyTrader.Vaults do
     |> Repo.insert()
   end
 
+  def add_vault(attrs \\ %{}) do
+    %Vault{}
+    |> Vault.changeset(attrs)
+    |> Repo.insert()
+  end
+
   @doc """
   Updates a vault.
 

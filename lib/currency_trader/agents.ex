@@ -35,7 +35,11 @@ defmodule CurrencyTrader.Agents do
       ** (Ecto.NoResultsError)
 
   """
-  def get_agent!(id), do: Repo.get!(Agent, id)
+  def get_agent!(id)  do
+    Repo.get!(Agent, id)
+    |> Repo.preload([vaults: [:currency]])
+
+  end
 
   @doc """
   Gets a single agent by username.

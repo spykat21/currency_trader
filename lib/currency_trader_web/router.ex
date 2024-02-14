@@ -9,6 +9,7 @@ defmodule CurrencyTraderWeb.Router do
   end
 
   defp handle_errors(conn , %{reason: %{message: message}}) do
+    IO.inspect(message)
     conn
     |> json(%{errors: message})
     |> halt()
@@ -27,15 +28,19 @@ defmodule CurrencyTraderWeb.Router do
 
     post "/agent/", AgentController, :create
     post "/agent/login/", AgentController, :login
-    post "/currency/", CurrencyController, :create
-    get "/currency/", CurrencyController, :index
-    get "/agent/", AgentController, :index
+
   end
 
   scope "/api/", CurrencyTraderWeb do
     pipe_through [:api , :auth]
 
     get "/agent/:id", AgentController, :show
+    get "/agent/", AgentController, :index
+    post "/vault/" , VaultController, :create
+    get "/vault/:agent_id/", VaultController, :get_vault
+    post "/currency/", CurrencyController, :create
+    get "/currency/", CurrencyController, :index
+
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development

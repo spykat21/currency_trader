@@ -1,5 +1,6 @@
 defmodule CurrencyTraderWeb.AgentJSON do
   alias CurrencyTrader.Agents.Agent
+  alias CurrencyTraderWeb.VaultJSON
 
   @doc """
   Renders a list of agents.
@@ -28,7 +29,9 @@ defmodule CurrencyTraderWeb.AgentJSON do
       id: agent.id,
       name: agent.name,
       username: agent.username,
-      hash_password: agent.hash_password
+      hash_password: agent.hash_password,
+      vaults: for(vault <- agent.vaults, do: VaultJSON.data(vault))
+
     }
   end
 end

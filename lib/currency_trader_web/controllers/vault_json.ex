@@ -1,5 +1,6 @@
 defmodule CurrencyTraderWeb.VaultJSON do
   alias CurrencyTrader.Vaults.Vault
+  alias CurrencyTraderWeb.CurrencyJSON
 
   @doc """
   Renders a list of vaults.
@@ -15,10 +16,11 @@ defmodule CurrencyTraderWeb.VaultJSON do
     %{data: data(vault)}
   end
 
-  defp data(%Vault{} = vault) do
+  def data(%Vault{} = vault) do
     %{
       id: vault.id,
-      amount: vault.amount
+      amount: vault.amount,
+      details: CurrencyJSON.data(vault.currency)
     }
   end
 end
