@@ -15,7 +15,7 @@ defmodule CurrencyTraderWeb.VaultController do
     with {:ok, %Vault{} = vault} <- Vaults.add_vault(vault_params) do
       conn
       |> put_status(:created)
-      #|> put_resp_header("location", ~p"/api/vaults/#{vault}")
+      # |> put_resp_header("location", ~p"/api/vaults/#{vault}")
       |> render(:show, vault: vault)
     end
   end
@@ -24,7 +24,6 @@ defmodule CurrencyTraderWeb.VaultController do
     vault = Vaults.get_vault!(id)
     render(conn, :show, vault: vault)
   end
-
 
   def update(conn, %{"id" => id, "vault" => vault_params}) do
     vault = Vaults.get_vault!(id)

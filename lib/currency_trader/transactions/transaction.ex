@@ -7,11 +7,14 @@ defmodule CurrencyTrader.Transactions.Transaction do
   schema "transactions" do
     field :action, :string
     field :currency_code, :string
+    field :exchange_currency_code, :string
     field :rate, :decimal
     field :customer_name, :string
     field :customer_phone, :string
     field :amount, :decimal
-    field :date_time, :utc_datetime
+    field :exchange_amount, :decimal
+    field :date_time, :utc_datetime, default: DateTime.utc_now(:second)
+    belongs_to :agent, CurrencyTrader.Agents.Agent
 
     timestamps(type: :utc_datetime)
   end
@@ -19,7 +22,32 @@ defmodule CurrencyTrader.Transactions.Transaction do
   @doc false
   def changeset(transaction, attrs) do
     transaction
-    |> cast(attrs, [:currency_code, :action, :rate, :customer_name, :customer_phone, :amount, :date_time])
-    |> validate_required([:currency_code, :action, :rate, :customer_name, :customer_phone, :amount, :date_time])
+    |> cast(attrs, [
+      :agent_id,
+      :currency_code,
+      :exchange_currency_code,
+      :action,
+      :rate,
+      :customer_name,
+      :customer_phone,
+      :amount,
+      :exchange_amount,
+      :date_time
+    ])
+    |> validate_required([
+      :agent_id,
+      :currency_code,
+      :exchange_currency_code,
+      :action,
+      :rate,
+      :customer_name,
+      :customer_phone,
+      :amount,
+      :exchange_amount,
+      :date_time
+    ])
+    |> validate_number(:amount, greater_than: 0)
+    |> validate_number(:exchange_amount, greater_than: 0)
+    |> validate_number(:rate, greater_than: 0)
   end
 end

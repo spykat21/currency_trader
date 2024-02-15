@@ -38,6 +38,22 @@ defmodule CurrencyTrader.Currencies do
   def get_currency!(id), do: Repo.get!(Currency, id)
 
   @doc """
+  Gets a single currency by currency code.
+
+  Raises `Ecto.NoResultsError` if the Currency does not exist.
+
+  ## Examples
+
+      iex> get_currency_by_code!(USD)
+      %Currency{}
+
+      iex> get_currency!(USD)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_currency_by_code!(code), do: Repo.get_by!(Currency, curr_code: code)
+
+  @doc """
   Creates a currency.
 
   ## Examples

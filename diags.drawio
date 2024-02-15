@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="8X7keAAUkCYeNsxqTZ2R" name="Page-1">
-        <mxGraphModel dx="753" dy="330" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+        <mxGraphModel dx="753" dy="300" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -10,7 +10,7 @@
                 <mxCell id="3" value="Currency pairs&lt;br&gt;&lt;br&gt;&lt;br&gt;currency_code&lt;br&gt;currency&lt;br&gt;buy_rate&lt;br&gt;sell_rate&lt;br&gt;updated_by" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
                     <mxGeometry x="550" y="75" width="120" height="185" as="geometry"/>
                 </mxCell>
-                <mxCell id="4" value="Transaction&lt;br&gt;&lt;br&gt;currency_code&lt;br&gt;action&lt;br&gt;rate&lt;br&gt;datetime&lt;br&gt;customer name&lt;br&gt;customer phone&lt;br&gt;amount" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                <mxCell id="4" value="Transaction&lt;br&gt;agent_id&lt;br&gt;currency_code&lt;br&gt;action&lt;br&gt;rate&lt;br&gt;datetime&lt;br&gt;customer name&lt;br&gt;customer phone&lt;br&gt;amount" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
                     <mxGeometry x="80" y="260" width="120" height="140" as="geometry"/>
                 </mxCell>
                 <mxCell id="6" value="Vault&lt;br&gt;&lt;br&gt;currency_id&lt;br&gt;amount&lt;br&gt;agent_id" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">

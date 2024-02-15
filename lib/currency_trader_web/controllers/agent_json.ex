@@ -31,7 +31,6 @@ defmodule CurrencyTraderWeb.AgentJSON do
       username: agent.username,
       hash_password: agent.hash_password,
       vaults: for(vault <- agent.vaults, do: VaultJSON.data(vault))
-
     }
   end
 end

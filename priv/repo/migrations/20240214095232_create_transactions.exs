@@ -15,6 +15,6 @@ defmodule CurrencyTrader.Repo.Migrations.CreateTransactions do
       timestamps(type: :utc_datetime)
     end
 
-    create index(:transactions , [:currency_code])
+    create index(:transactions, [:currency_code])
   end
 end

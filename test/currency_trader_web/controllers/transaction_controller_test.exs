@@ -23,7 +23,15 @@ defmodule CurrencyTraderWeb.TransactionControllerTest do
     amount: "456.7",
     date_time: ~U[2024-02-14 09:52:00Z]
   }
-  @invalid_attrs %{action: nil, currency_code: nil, rate: nil, customer_name: nil, customer_phone: nil, amount: nil, date_time: nil}
+  @invalid_attrs %{
+    action: nil,
+    currency_code: nil,
+    rate: nil,
+    customer_name: nil,
+    customer_phone: nil,
+    amount: nil,
+    date_time: nil
+  }
 
   setup %{conn: conn} do
     {:ok, conn: put_req_header(conn, "accept", "application/json")}
@@ -64,7 +72,10 @@ defmodule CurrencyTraderWeb.TransactionControllerTest do
   describe "update transaction" do
     setup [:create_transaction]
 
-    test "renders transaction when data is valid", %{conn: conn, transaction: %Transaction{id: id} = transaction} do
+    test "renders transaction when data is valid", %{
+      conn: conn,
+      transaction: %Transaction{id: id} = transaction
+    } do
       conn = put(conn, ~p"/api/transactions/#{transaction}", transaction: @update_attrs)
       assert %{"id" => ^id} = json_response(conn, 200)["data"]
 

@@ -8,3 +8,16 @@ System records transactions
 System records balance history
 
 cmd /K "C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Auxiliary\Build\vcvarsall.bat" amd64
+
+Flow:
+Buy-Action : 
+* Calculate exchange in local currency by the  buy rate
+* Check if there is enough balance for transaction
+* Credit foreign currency vault with the amount
+* Debit exchange currency vault with the exchange amount
+
+Sell-Action :
+* Calculate exchange in local currency by the sell rate
+* Check if there is enough balance for transaction
+* Debit foreign currency vault with the amount
+* Credit exchange currency  vault with the exchange amount

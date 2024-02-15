@@ -8,7 +8,15 @@ defmodule CurrencyTrader.TransactionsTest do
 
     import CurrencyTrader.TransactionsFixtures
 
-    @invalid_attrs %{action: nil, currency_code: nil, rate: nil, customer_name: nil, customer_phone: nil, amount: nil, date_time: nil}
+    @invalid_attrs %{
+      action: nil,
+      currency_code: nil,
+      rate: nil,
+      customer_name: nil,
+      customer_phone: nil,
+      amount: nil,
+      date_time: nil
+    }
 
     test "list_transactions/0 returns all transactions" do
       transaction = transaction_fixture()
@@ -21,7 +29,15 @@ defmodule CurrencyTrader.TransactionsTest do
     end
 
     test "create_transaction/1 with valid data creates a transaction" do
-      valid_attrs = %{action: "some action", currency_code: "some currency_code", rate: "120.5", customer_name: "some customer_name", customer_phone: "some customer_phone", amount: "120.5", date_time: ~U[2024-02-13 09:52:00Z]}
+      valid_attrs = %{
+        action: "some action",
+        currency_code: "some currency_code",
+        rate: "120.5",
+        customer_name: "some customer_name",
+        customer_phone: "some customer_phone",
+        amount: "120.5",
+        date_time: ~U[2024-02-13 09:52:00Z]
+      }
 
       assert {:ok, %Transaction{} = transaction} = Transactions.create_transaction(valid_attrs)
       assert transaction.action == "some action"
@@ -39,9 +55,20 @@ defmodule CurrencyTrader.TransactionsTest do
 
     test "update_transaction/2 with valid data updates the transaction" do
       transaction = transaction_fixture()
-      update_attrs = %{action: "some updated action", currency_code: "some updated currency_code", rate: "456.7", customer_name: "some updated customer_name", customer_phone: "some updated customer_phone", amount: "456.7", date_time: ~U[2024-02-14 09:52:00Z]}
 
-      assert {:ok, %Transaction{} = transaction} = Transactions.update_transaction(transaction, update_attrs)
+      update_attrs = %{
+        action: "some updated action",
+        currency_code: "some updated currency_code",
+        rate: "456.7",
+        customer_name: "some updated customer_name",
+        customer_phone: "some updated customer_phone",
+        amount: "456.7",
+        date_time: ~U[2024-02-14 09:52:00Z]
+      }
+
+      assert {:ok, %Transaction{} = transaction} =
+               Transactions.update_transaction(transaction, update_attrs)
+
       assert transaction.action == "some updated action"
       assert transaction.currency_code == "some updated currency_code"
       assert transaction.rate == Decimal.new("456.7")
@@ -53,7 +80,10 @@ defmodule CurrencyTrader.TransactionsTest do
 
     test "update_transaction/2 with invalid data returns error changeset" do
       transaction = transaction_fixture()
-      assert {:error, %Ecto.Changeset{}} = Transactions.update_transaction(transaction, @invalid_attrs)
+
+      assert {:error, %Ecto.Changeset{}} =
+               Transactions.update_transaction(transaction, @invalid_attrs)
+
       assert transaction == Transactions.get_transaction!(transaction.id)
     end
 
