@@ -8,6 +8,11 @@ defmodule CurrencyTrader.Agents do
 
   alias CurrencyTrader.Agents.Agent
 
+  def preloader(list) do
+    list
+    |> Repo.preload(vaults: [:currency])
+  end
+
   @doc """
   Returns the list of agents.
 
@@ -19,6 +24,7 @@ defmodule CurrencyTrader.Agents do
   """
   def list_agents do
     Repo.all(Agent)
+    |> preloader
   end
 
   @doc """
@@ -35,10 +41,9 @@ defmodule CurrencyTrader.Agents do
       ** (Ecto.NoResultsError)
 
   """
-  def get_agent!(id)  do
+  def get_agent!(id) do
     Repo.get!(Agent, id)
-    |> Repo.preload([vaults: [:currency]])
-
+    |> preloader
   end
 
   @doc """
@@ -59,6 +64,7 @@ defmodule CurrencyTrader.Agents do
     Agent
     |> where(username: ^username)
     |> Repo.one!()
+    |> preloader
   end
 
   @doc """

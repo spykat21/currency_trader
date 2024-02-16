@@ -8,10 +8,21 @@ defmodule CurrencyTraderWeb.Router do
     |> halt()
   end
 
-  defp handle_errors(conn , %{reason: %{message: message}}) do
+  defp handle_errors(conn, %{reason: %{message: message}}) do
     IO.inspect(message)
+
     conn
     |> json(%{errors: message})
+    |> halt()
+  end
+
+  defp handle_errors(conn, %{kind: _, reason: _} = error) do
+    # Log the error or perform any necessary actions
+    IO.inspect(error.reason)
+
+    # Return an appropriate response
+    conn
+    |> json(%{errors: "Unexpected error occurred"})
     |> halt()
   end
 
@@ -28,19 +39,20 @@ defmodule CurrencyTraderWeb.Router do
 
     post "/agent/", AgentController, :create
     post "/agent/login/", AgentController, :login
-
   end
 
   scope "/api/", CurrencyTraderWeb do
-    pipe_through [:api , :auth]
+    pipe_through [:api, :auth]
 
     get "/agent/:id", AgentController, :show
     get "/agent/", AgentController, :index
-    post "/vault/" , VaultController, :create
+    get "/vault/:id", VaultController, :show
+    post "/vault/", VaultController, :create
+    put "/vault/", VaultController, :update
     get "/vault/:agent_id/", VaultController, :get_vault
     post "/currency/", CurrencyController, :create
     get "/currency/", CurrencyController, :index
-
+    post "/transaction/", TransactionController, :create
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development

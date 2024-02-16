@@ -35,7 +35,29 @@ defmodule CurrencyTrader.Vaults do
       ** (Ecto.NoResultsError)
 
   """
-  def get_vault!(id), do: Repo.get!(Vault, id)
+  def get_vault!(id), do: Repo.get!(Vault, id) |> Repo.preload(:currency)
+
+  @doc """
+  Gets a single vault by agent id.
+
+  Raises `Ecto.NoResultsError` if the Vault does not exist.
+
+  ## Examples
+
+      iex> get_vault_by_agent_id!(123)
+      %Vault{}
+
+      iex> get_vault!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_vaults_by_agent_id!(id) do
+    from(v in Vault,
+      where: v.agent_id == ^id
+    )
+    |> Repo.all()
+    |> Repo.preload(:currency)
+  end
 
   @doc """
   Creates a vault.

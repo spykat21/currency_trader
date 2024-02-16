@@ -9,6 +9,8 @@ defmodule CurrencyTrader.Agents.Agent do
     field :username, :string
     field :hash_password, :string
     has_many :vaults, CurrencyTrader.Vaults.Vault
+    has_many :transactions, CurrencyTrader.Transactions.Transaction
+    has_many :vault_transactions, CurrencyTrader.Vault_Transactions.Vault_Transaction
 
     timestamps(type: :utc_datetime)
   end

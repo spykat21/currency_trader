@@ -3,7 +3,7 @@ defmodule CurrencyTraderWeb.AgentController do
 
   alias CurrencyTrader.{Agents, Agents.Agent, Vaults, Vaults.Vault}
 
-  alias CurrencyTraderWeb.{Auth.Guardian ,  Auth.ErrorResponse}
+  alias CurrencyTraderWeb.{Auth.Guardian, Auth.ErrorResponse}
 
   action_fallback CurrencyTraderWeb.FallbackController
 
@@ -23,15 +23,17 @@ defmodule CurrencyTraderWeb.AgentController do
     end
   end
 
-  def login(conn , %{"username" => username , "hash_password" => hash_password}) do
-     response  = Guardian.authenticate(username , hash_password)
+  def login(conn, %{"username" => username, "hash_password" => hash_password}) do
+    response = Guardian.authenticate(username, hash_password)
+
     case response do
-      {:ok , agent , token} ->
+      {:ok, agent, token} ->
         conn
         |> put_status(:ok)
-        |> render(:agent_token , %{agent: agent, token: token})
-      {:error , :unauthorized} -> raise ErrorResponse.Unauthorized, message: "Incorrect login credentials"
+        |> render(:agent_token, %{agent: agent, token: token})
 
+      {:error, :unauthorized} ->
+        raise ErrorResponse.Unauthorized, message: "Incorrect login credentials"
     end
   end
 
