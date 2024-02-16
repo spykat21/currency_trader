@@ -35,7 +35,7 @@ defmodule CurrencyTrader.Vaults do
       ** (Ecto.NoResultsError)
 
   """
-  def get_vault!(id), do: Repo.get!(Vault, id)
+  def get_vault!(id), do: Repo.get!(Vault, id) |> Repo.preload(:currency)
 
   @doc """
   Gets a single vault by agent id.

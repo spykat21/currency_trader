@@ -1,7 +1,16 @@
 defmodule CurrencyTraderWeb.TransactionController do
   use CurrencyTraderWeb, :controller
 
-  alias CurrencyTrader.{Transactions, Transactions.Transaction, Vaults, Currencies, Vaults.Vault}
+  alias CurrencyTrader.{
+    Transactions,
+    Transactions.Transaction,
+    Vaults,
+    Currencies,
+    Vaults.Vault,
+    Vault_Transactions.Vault_Transaction,
+    Vault_Transactions
+  }
+
   alias CurrencyTraderWeb.Auth.ErrorResponse
 
   action_fallback CurrencyTraderWeb.FallbackController
@@ -35,21 +44,36 @@ defmodule CurrencyTraderWeb.TransactionController do
           [agent_vault_usd | _tail] =
             Enum.filter(vaults, fn vault -> vault.currency.curr_code == currency_code end)
 
-          %{transaction_params | exchange_amount: exchange}
+          new_transaction_params = Map.put(transaction_params, "exchange_amount", exchange)
 
           with {:ok, %Vault{} = _vault} <-
                  Vaults.update_vault(agent_vault_usd, %{
                    amount: Decimal.add(agent_vault_usd.amount, amount)
                  }),
+               {:ok, %Vault{} = _vault} <-
+                 Vaults.update_vault(agent_vault_ghs, %{
+                   amount: Decimal.sub(agent_vault_ghs.amount, exchange)
+                 }),
+               {:ok, %Transaction{} = transaction} <-
+                 Transactions.create_transaction(new_transaction_params),
 
-                 {:ok, %Vault{} = _vault} <-
-                 Vaults.update_vault(agent_vault_ghs, %{amount: agent_vault_usd.amount - exchange}),
+          {:ok, %Vault_Transaction{} = _vault_transaction} <-
+            Vault_Transactions.create_vault__transaction(transaction, %{
+              agent_id: agent_id,
+              currency_code: currency_code,
+              amount: amount,
+              type: "credit"
+            }),
 
-                 {:ok, %Transaction{} = transaction} <-
-                 Transactions.create_transaction(transaction_params) do
-
-                  render(conn, :show, transaction: transaction)
-          end
+          {:ok, %Vault_Transaction{} = _vault_transaction} <-
+            Vault_Transactions.create_vault__transaction(transaction, %{
+              agent_id: agent_id,
+              currency_code: exchange_currency_code,
+              amount: transaction.exchange_amount,
+              type: "debit"
+            }) do
+              render(conn, :show, transaction: transaction)
+            end
         end
 
       "sell" ->

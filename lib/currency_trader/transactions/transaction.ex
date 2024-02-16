@@ -13,7 +13,8 @@ defmodule CurrencyTrader.Transactions.Transaction do
     field :customer_phone, :string
     field :amount, :decimal
     field :exchange_amount, :decimal
-    field :date_time, :utc_datetime, default: DateTime.utc_now(:second)
+    has_many :vault_transactions, CurrencyTrader.Vault_Transactions.Vault_Transaction
+    # :date_time, :utc_datetime, default: DateTime.utc_now(:second)
     belongs_to :agent, CurrencyTrader.Agents.Agent
 
     timestamps(type: :utc_datetime)
@@ -31,8 +32,7 @@ defmodule CurrencyTrader.Transactions.Transaction do
       :customer_name,
       :customer_phone,
       :amount,
-      :exchange_amount,
-      :date_time
+      :exchange_amount
     ])
     |> validate_required([
       :agent_id,
@@ -43,8 +43,7 @@ defmodule CurrencyTrader.Transactions.Transaction do
       :customer_name,
       :customer_phone,
       :amount,
-      :exchange_amount,
-      :date_time
+      :exchange_amount
     ])
     |> validate_number(:amount, greater_than: 0)
     |> validate_number(:exchange_amount, greater_than: 0)

@@ -46,7 +46,9 @@ defmodule CurrencyTraderWeb.Router do
 
     get "/agent/:id", AgentController, :show
     get "/agent/", AgentController, :index
+    get "/vault/:id", VaultController, :show
     post "/vault/", VaultController, :create
+    put "/vault/", VaultController, :update
     get "/vault/:agent_id/", VaultController, :get_vault
     post "/currency/", CurrencyController, :create
     get "/currency/", CurrencyController, :index

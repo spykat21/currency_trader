@@ -24,7 +24,7 @@ defmodule CurrencyTraderWeb.TransactionJSON do
       customer_name: transaction.customer_name,
       customer_phone: transaction.customer_phone,
       amount: transaction.amount,
-      date_time: transaction.date_time
+      date_time: transaction.inserted_at
     }
   end
 end
