@@ -28,10 +28,12 @@ defmodule CurrencyTraderWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug :fetch_session
   end
 
   pipeline :auth do
     plug CurrencyTraderWeb.Auth.Pipeline
+    plug CurrencyTraderWeb.Auth.SetAgent
   end
 
   scope "/api", CurrencyTraderWeb do
@@ -51,8 +53,10 @@ defmodule CurrencyTraderWeb.Router do
     put "/vault/", VaultController, :update
     get "/vault/:agent_id/", VaultController, :get_vault
     post "/currency/", CurrencyController, :create
+    put "/currency/", CurrencyController, :update
     get "/currency/", CurrencyController, :index
     post "/transaction/", TransactionController, :create
+    get "/transaction/", TransactionController, :index
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development

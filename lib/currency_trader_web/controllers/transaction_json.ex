@@ -18,12 +18,14 @@ defmodule CurrencyTraderWeb.TransactionJSON do
   defp data(%Transaction{} = transaction) do
     %{
       id: transaction.id,
-      currency_code: transaction.currency_code,
+      base_currency: transaction.currency_code,
+      quote_currency: transaction.exchange_currency_code,
       action: transaction.action,
       rate: transaction.rate,
       customer_name: transaction.customer_name,
       customer_phone: transaction.customer_phone,
       amount: transaction.amount,
+      exchange_amount: transaction.exchange_amount,
       date_time: transaction.inserted_at
     }
   end

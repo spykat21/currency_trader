@@ -29,55 +29,90 @@ defmodule CurrencyTraderWeb.TransactionController do
     %{"exchange_currency_code" => exchange_currency_code} = transaction_params
 
     exchange = Decimal.from_float(amount * rate)
+    vaults = Vaults.get_vaults_by_agent_id!(agent_id)
 
     case action do
       "buy" ->
-        vaults = Vaults.get_vaults_by_agent_id!(agent_id)
-
-        [agent_vault_ghs | _tail] =
+        [agent_vault_exchange_curr_code | _tail] =
           Enum.filter(vaults, fn vault -> vault.currency.curr_code == exchange_currency_code end)
 
-        if Decimal.compare(agent_vault_ghs.amount, exchange) == :lt do
+        if Decimal.compare(agent_vault_exchange_curr_code.amount, exchange) == :lt do
           raise ErrorResponse.Unprocessable,
             message: "Insufficient #{exchange_currency_code} balance to carry out transaction"
         else
-          [agent_vault_usd | _tail] =
+          [agent_vault_curr_code | _tail] =
             Enum.filter(vaults, fn vault -> vault.currency.curr_code == currency_code end)
 
           new_transaction_params = Map.put(transaction_params, "exchange_amount", exchange)
 
           with {:ok, %Vault{} = _vault} <-
-                 Vaults.update_vault(agent_vault_usd, %{
-                   amount: Decimal.add(agent_vault_usd.amount, amount)
+                 Vaults.update_vault(agent_vault_curr_code, %{
+                   amount: Decimal.add(agent_vault_curr_code.amount, amount)
                  }),
                {:ok, %Vault{} = _vault} <-
-                 Vaults.update_vault(agent_vault_ghs, %{
-                   amount: Decimal.sub(agent_vault_ghs.amount, exchange)
+                 Vaults.update_vault(agent_vault_exchange_curr_code, %{
+                   amount: Decimal.sub(agent_vault_exchange_curr_code.amount, exchange)
                  }),
                {:ok, %Transaction{} = transaction} <-
                  Transactions.create_transaction(new_transaction_params),
-
-          {:ok, %Vault_Transaction{} = _vault_transaction} <-
-            Vault_Transactions.create_vault__transaction(transaction, %{
-              agent_id: agent_id,
-              currency_code: currency_code,
-              amount: amount,
-              type: "credit"
-            }),
-
-          {:ok, %Vault_Transaction{} = _vault_transaction} <-
-            Vault_Transactions.create_vault__transaction(transaction, %{
-              agent_id: agent_id,
-              currency_code: exchange_currency_code,
-              amount: transaction.exchange_amount,
-              type: "debit"
-            }) do
-              render(conn, :show, transaction: transaction)
-            end
+               {:ok, %Vault_Transaction{} = _vault_transaction} <-
+                 Vault_Transactions.create_vault__transaction(transaction, %{
+                   agent_id: agent_id,
+                   currency_code: currency_code,
+                   amount: amount,
+                   type: "credit"
+                 }),
+               {:ok, %Vault_Transaction{} = _vault_transaction} <-
+                 Vault_Transactions.create_vault__transaction(transaction, %{
+                   agent_id: agent_id,
+                   currency_code: exchange_currency_code,
+                   amount: transaction.exchange_amount,
+                   type: "debit"
+                 }) do
+            render(conn, :show, transaction: transaction)
+          end
         end
 
       "sell" ->
-        ""
+        [agent_vault_curr_code | _tail] =
+          Enum.filter(vaults, fn vault -> vault.currency.curr_code == currency_code end)
+
+        if Decimal.compare(agent_vault_curr_code.amount, amount) == :lt do
+          raise ErrorResponse.Unprocessable,
+            message: "Insufficient #{currency_code} balance to carry out transaction"
+        else
+          [agent_vault_exchange_curr_code | _tail] =
+            Enum.filter(vaults, fn vault -> vault.currency.curr_code == exchange_currency_code end)
+
+          new_transaction_params = Map.put(transaction_params, "exchange_amount", exchange)
+
+          with {:ok, %Vault{} = _vault} <-
+                 Vaults.update_vault(agent_vault_curr_code, %{
+                   amount: Decimal.sub(agent_vault_curr_code.amount, amount)
+                 }),
+               {:ok, %Vault{} = _vault} <-
+                 Vaults.update_vault(agent_vault_exchange_curr_code, %{
+                   amount: Decimal.add(agent_vault_exchange_curr_code.amount, exchange)
+                 }),
+               {:ok, %Transaction{} = transaction} <-
+                 Transactions.create_transaction(new_transaction_params),
+               {:ok, %Vault_Transaction{} = _vault_transaction} <-
+                 Vault_Transactions.create_vault__transaction(transaction, %{
+                   agent_id: agent_id,
+                   currency_code: currency_code,
+                   amount: amount,
+                   type: "debit"
+                 }),
+               {:ok, %Vault_Transaction{} = _vault_transaction} <-
+                 Vault_Transactions.create_vault__transaction(transaction, %{
+                   agent_id: agent_id,
+                   currency_code: exchange_currency_code,
+                   amount: transaction.exchange_amount,
+                   type: "credit"
+                 }) do
+            render(conn, :show, transaction: transaction)
+          end
+        end
     end
   end
 

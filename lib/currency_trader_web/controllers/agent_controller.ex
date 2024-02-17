@@ -29,6 +29,7 @@ defmodule CurrencyTraderWeb.AgentController do
     case response do
       {:ok, agent, token} ->
         conn
+        |> Plug.Conn.put_session(:agent_id, agent.id)
         |> put_status(:ok)
         |> render(:agent_token, %{agent: agent, token: token})
 
@@ -37,9 +38,9 @@ defmodule CurrencyTraderWeb.AgentController do
     end
   end
 
-  def show(conn, %{"id" => id}) do
-    agent = Agents.get_agent!(id)
-    render(conn, :show, agent: agent)
+  def show(conn, %{"id" => _id}) do
+    # agent = Agents.get_agent!(id)
+    render(conn, :show, agent: conn.assigns.agent)
   end
 
   def update(conn, %{"id" => id, "agent" => agent_params}) do
